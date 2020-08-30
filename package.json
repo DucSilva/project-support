@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon app.js --exec babel-node"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,14 @@
   "homepage": "https://github.com/DucSilva/project-support#readme",
   "dependencies": {
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^3.10.1",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^7.7.0",
+    "eslint-plugin-react": "^7.20.6",
+    "nodemon": "^2.0.4"
   }
 }

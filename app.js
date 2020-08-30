@@ -1,5 +1,5 @@
 // Call in installed dependencies
-const express = require('express');
+import express from 'express';
 
 // set up express app
 const app = express();
@@ -15,5 +15,6 @@ app.get('/', (request, respond) => {
 });
 
 app.listen(port, (request, respond) => {
+    console.log(request, respond);
     console.log(`Our server is live on ${port}. Dia dia!`);
 });
