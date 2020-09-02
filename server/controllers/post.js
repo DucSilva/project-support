@@ -1,21 +1,21 @@
 import mongoose from 'mongoose';
-import Cause from '../models/cause';
+import Post from '../models/post';
 
-// create new cause
-export function createCause(req, res) {
-    const cause = new Cause({
+// create new Post
+export function createPost(req, res) {
+    const post = new Post({
         _id: mongoose.Types.ObjectId(),
         title: req.body.title,
         description: req.body.description,
     });
 
-    return cause
+    return post
         .save()
-        .then((newCause) => {
+        .then((newPost) => {
             return res.status(201).json({
                 success: true,
                 message: 'New cause created successfully',
-                Cause: newCause,
+                Post: newPost,
             });
         })
         .catch((error) => {
@@ -28,14 +28,14 @@ export function createCause(req, res) {
 }
 
 // Get all causes 
-export function getAllCause(req, res) {
-    Cause.find()
+export function getAllPost(req, res) {
+    Post.find()
         .select('_id title description')
-        .then((allCause) => {
+        .then((allPost) => {
             return res.status(200).json({
                 success: true,
-                message: 'A list of all causes',
-                Cause: allCause,
+                message: 'A list of all Posts',
+                Post: allPost,
             });
         })
         .catch((err) => {
@@ -47,37 +47,37 @@ export function getAllCause(req, res) {
         })
 }
 
-// get single cause
-export function getSingleCause(req, res) {
-    const id = req.params.causeId;
-    Cause.findById(id)
-        .then((singleCause) => {
+// get single Post
+export function getSinglePost(req, res) {
+    const id = req.params.postId;
+    Post.findById(id)
+        .then((singlePost) => {
             res.status(200).json({
                 success: true,
-                message: `More on ${singleCause.title}`,
-                Cause: singleCause,
+                message: `More on ${singlePost.title}`,
+                Post: singlePost,
             })
         })
         .catch((err) => {
             res.status(500).json({
                 success: false,
-                message: 'This cause does not exist',
+                message: 'This Post does not exist',
                 error: err.message,
             })
         });
 }
 
-// update cause
-export function updateCause(req, res){
-    const id = req.params.causeId;
+// update Post
+export function updatePost(req, res) {
+    const id = req.params.postId;
     const updateObject = req.body;
-    Cause.update({ _id: id}, { $set:updateObject})
+    Post.update({ _id: id }, { $set: updateObject })
         .exec()
         .then(() => {
             res.status(200).json({
                 success: true,
-                message: 'Cause is updated',
-                updateCause: updateObject,
+                message: 'Post is updated',
+                updatePost: updateObject,
             });
         })
         .catch((err) => {
@@ -88,18 +88,18 @@ export function updateCause(req, res){
         });
 }
 
-// delete a cause 
-export function deleteCause(req, res){
-    const id = req.params.causeId;
-    Cause.findByIdAndRemove(id)
+// delete a Post 
+export function deletePost(req, res) {
+    const id = req.params.postId;
+    Post.findByIdAndRemove(id)
         .exec()
         .then(() => res.status(200).json({
             success: true,
-            message: 'Cause is deleted',
+            message: 'Post is deleted',
         }))
         .catch((err) => res.status(500).json({
             success: false,
-            message: 'This cause does not exist',
+            message: 'This Post does not exist',
             error: err.message,
         }));
 }
