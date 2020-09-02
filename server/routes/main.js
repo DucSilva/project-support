@@ -1,11 +1,17 @@
 import express from 'express';
-import { createCause, getAllCause, getSingleCause, updateCause, deleteCause } from '../controllers/cause';
+import { createPost, getAllPost, getSinglePost, updatePost, deletePost } from '../controllers/post';
+import { createUser, updateUser } from '../controllers/user';
 
 const router = express.Router();
-router.post('/causes', createCause);
-router.get('/causes', getAllCause);
-router.get('/causes/:causeId', getSingleCause);
-router.patch('/causes/:causeId', updateCause);
-router.delete('/causes/:causeId', deleteCause);
+// Create post
+router.post('/posts', createPost);
+router.get('/posts', getAllPost);
+router.get('/posts/:postId', getSinglePost);
+router.patch('/posts/:postId', updatePost);
+router.delete('/posts/:postId', deletePost);
+
+// Create User
+router.post('/users', createUser);
+router.put('/users/:userId', updateUser);
 
 export default router;
