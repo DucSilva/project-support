@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcryt from 'bcrypt';
 import User from '../models/user';
 
 // Create User
@@ -25,6 +26,31 @@ export function createUser(req, res) {
                 error: error.message,
             })
         })
+}
+
+// Login user
+export function loginUser(req, res) {
+    const { username, password } = req.body;
+    User.findOne({ username: username }, (error, user) => {
+        if (user) {
+            bcryt.compare(password, user.password, (error, same) => {
+                if (same) {
+                    //if passwords match
+                    // store user session
+                    // req.session.userId = user._id;
+                    return res.status(201).json({
+                        success: true,
+                        message: 'User login successfully',
+                    });
+                }
+                else {
+                    // This line will update code later
+                }
+            })
+        } else {
+            // This line will update code later
+        }
+    })
 }
 
 // Update User
