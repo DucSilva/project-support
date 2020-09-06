@@ -1,58 +1,3 @@
-// import mongoose from 'mongoose';
-// import bcryt from 'bcrypt';
-// import User from '../models/user';
-
-// // Create User
-// export function createUser(req, res) {
-//     const user = new User({
-//         _id: mongoose.Types.ObjectId(),
-//         username: req.body.username,
-//         password: req.body.password,
-//     });
-
-//     return user
-//         .save()
-//         .then((newUser) => {
-//             return res.status(201).json({
-//                 success: true,
-//                 message: 'New user created successfully',
-//                 User: newUser,
-//             });
-//         })
-//         .catch((error) => {
-//             res.status(500).json({
-//                 success: false,
-//                 message: 'Server error. Please try again.',
-//                 error: error.message,
-//             })
-//         })
-// }
-
-// // Login user
-// export function loginUser(req, res) {
-//     const { username, password } = req.body;
-//     User.findOne({ username: username }, (error, user) => {
-//         if (user) {
-//             bcryt.compare(password, user.password, (error, same) => {
-//                 if (same) {
-//                     //if passwords match
-//                     // store user session
-//                     // req.session.userId = user._id;
-//                     return res.status(201).json({
-//                         success: true,
-//                         message: 'User login successfully',
-//                     });
-//                 }
-//                 else {
-//                     // This line will update code later
-//                 }
-//             })
-//         } else {
-//             // This line will update code later
-//         }
-//     })
-// }
-
 // // Update User
 // export function updateUser(req, res) {
 //     const id = req.params.userId;
@@ -152,4 +97,35 @@ export function createUser(req, res) {
             });
     });
 }
+
+export function loginUser(req, res) {
+    const { username, password } = req.body;
+    User.findOne({ username })
+        .then((existingUser) => {
+            bcrypt.compare(password, existingUser.password, (err, result) => {
+                if (err) {
+                    return res.status(401).json({
+                        message: 'Not authorized',
+                    });
+                }
+                if (result) {
+                    const token = Token(existingUser);
+                    return res.status(200).json({
+                        message: 'User authorization successful',
+                        existingUser: {
+                            username: existingUser.username,
+                            email: existingUser.email,
+                            _id: existingUser.id,
+                        },
+                        token,
+                    });
+                }
+                return res.status(401).json({
+                    message: 'Invalid details',
+                });
+            });
+        })
+        .catch(() => res.status(500).json({ message: 'Our server is in the locker room, please do try again.' }));
+}
+
 export default User;
