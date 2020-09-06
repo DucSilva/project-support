@@ -1,26 +1,25 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt'
-
 mongoose.Promise = global.Promise;
-
 const userSchema = new mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
     username: {
         type: String,
         required: true,
-        index: { unique: true }
+        unique: true,
+        trim: true,
+        lowerCase: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+        lowerCase: true,
+        match: [/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?      ^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/],
     },
     password: {
         type: String,
-        required: true
-    }
+        required: true,
+    },
 });
-
-userSchema.pre('save', function (next) {
-    const user = this
-    bcrypt.hash(user.password, 10, (error, hash) => {
-        user.password = hash
-        next()
-    })
-})
-
 export default mongoose.model('User', userSchema);
