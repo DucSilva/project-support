@@ -40,6 +40,13 @@ app.get('/', (request, respond) => {
     });
 });
 
+// set up a wildcard route to catch related endpoints and outputs a response.
+app.get('*', (req, res) => {
+    res.status(400).json({
+        message: 'This is Project Support. Please see documentation for the proper routes.',
+    });
+});
+
 app.listen(port);
 
 export default app;
