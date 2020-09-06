@@ -57,20 +57,45 @@ export function loginUser(req, res) {
 export function updateUser(req, res) {
     const id = req.params.userId;
     const updateObject = req.body;
-    User.update({ _id: id }, { $set: updateObject })
-        .exec()
-        .then(() => {
-            res.status(200).json({
-                success: true,
-                message: 'User is updated',
-                updateUser: updateObject,
-            });
-        })
-        .catch((err) => {
-            res.status(500).json({
-                success: false,
-                message: 'Server error. Please try again.'
-            });
-        });
-}
+    const password = req.body.password
 
+    // update it with hash
+    bcryt.hash(password, (hash) => {
+        console.log('password==>>', password)
+        req.body.password = hash
+
+        // then update
+        // User.findByIdAndUpdate(req.body, function (err) {
+
+        // });
+        User.update({ _id: id }, { $set: updateObject }, { $set: password })
+            .exec()
+            .then(() => {
+                res.status(200).json({
+                    success: true,
+                    message: 'User is updated',
+                    updateUser: updateObject,
+                });
+            })
+            .catch((err) => {
+                res.status(500).json({
+                    success: false,
+                    message: 'Server error. Please try again.'
+                });
+            })
+        // User.update({ _id: id }, { $set: updateObject })
+        //     .exec()
+        //     .then(() => {
+        //         res.status(200).json({
+        //             success: true,
+        //             message: 'User is updated',
+        //             updateUser: updateObject,
+        //         });
+        //     })
+        //     .catch((err) => {
+        //         res.status(500).json({
+        //             success: false,
+        //             message: 'Server error. Please try again.'
+        //         });
+    })
+}
