@@ -2,13 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import 'antd/dist/antd.css';
-import App from './App';
+import App from './pages/page/Login';
 import * as serviceWorker from './serviceWorker';
+import { WrapperContainer } from './styles'
 
 ReactDOM.render(
-  <React.StrictMode>
+  <WrapperContainer>
     <App />
-  </React.StrictMode>,
+  </WrapperContainer>,
   document.getElementById('root')
 );
 

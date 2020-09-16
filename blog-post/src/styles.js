@@ -1,7 +1,15 @@
 import styled from 'styled-components';
 
-export const AppContainer = styled.div`
+export const WrapperContainer = styled.div`
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: 'Proxima Nova Regular';
+  // background-color: #00e1ff42;
+  background-image: url("./background.jpg");
+`;
+
+export const AppContainer = styled.div`
   display: flex;
   flex-flow: column;
   min-width: 100vw;
