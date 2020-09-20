@@ -14,6 +14,8 @@ import {
 import { ActionMenuItem } from '../styles'
 import Avatar from '../Avatar/Avatar';
 import LogoSvg from '../../common/images/duc.png';
+import axios from 'axios';
+import { loginUser } from '../../api/useApi';
 
 const pageIndexMapping = {
   '/': 1,
@@ -25,6 +27,16 @@ const Header = (props) => {
   const [toggleModal, setToggleModal] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
   const { pathname } = location;
+
+
+
+  useEffect(() => {
+    const user = {
+      "username": "Silva",
+      "password": "123456"
+    }
+    loginUser(user);
+  }, [])
 
   useEffect(() => {
     setPageIndex(pageIndexMapping[pathname]);

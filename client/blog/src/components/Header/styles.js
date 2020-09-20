@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Row } from 'antd';
 
 export const RowContainer = styled(Row)`
-  height: 100px;
+  height: 70px;
   padding: 0 5px;
   background-color: #e6f7ff;
   display: flex;
@@ -13,7 +13,7 @@ export const ImageContainer = styled.div`
   text-align: center;
   cursor: pointer;
   img{
-    max-height: 100px;
+    max-height: 70px;
     width: auto;
   }
 `;
