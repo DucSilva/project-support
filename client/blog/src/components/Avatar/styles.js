@@ -8,9 +8,9 @@ export const AvatarContainer = styled.div`
   border: 3px solid ${props => props.color || '#008bcf'};
   box-sizing: border-box;
   overflow: hidden;
-
   img {
     height: 36px;
     width: 36px;
+    vertical-align: top;
   }
 `;

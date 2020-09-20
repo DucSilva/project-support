@@ -18,71 +18,24 @@ import Header from './components/Header/Header';
 import Home from './components/Home/Home';
 import About from './components/About/About';
 import Topics from './components/Topics/Topics';
-// import RegisterNewPassword from './pages/RegisterNewPassword/RegisterNewPassword';
-// import ConfirmInvite from './containers/ConfirmInvite';
-
 const Router = (props) => {
-  // const { isPageLoading, printData } = props;
 
   const renderAuthRoute = () => (
-    <AppContainer className="ignore-print">
+    <>
       <Header />
-      <ContentWrapper>
-        <Switch>
-          <Route exact path="/topics" component={Topics} />
-          <Route exact path="/About" component={About} />
-          {/* <AuthRoute path="/:resourceType/:resourceId" hash="#:selectedComment/:createdTime" component={EditorPage} /> */}
-          {/* <AuthRoute path="/:resourceType/:resourceId" component={EditorPage} /> */}
-          <Route exact path="/" component={Home} />
-          <Route path="" component={() => <Redirect to="/" />} />
-        </Switch>
-      </ContentWrapper>
-    </AppContainer>
+      <Switch>
+        <Route exact path="/topics" component={Topics} />
+        <Route exact path="/About" component={About} />
+        <Route exact path="/" component={Home} />
+        <Route path="" component={() => <Redirect to="/" />} />
+      </Switch>
+    </>
   );
-
-  // const isPageLoading = false;
-
-  // const renderSwitch = useMemo(() => (
-  //   <>
-  //     {isPageLoading
-  //       ? (
-  //         <AppContainer>
-  //           <Header isPageLoading />
-  //           <ContentWrapper>
-  //             {/* <EditorPage /> */}
-  //           </ContentWrapper>
-  //         </AppContainer>
-  //       )
-  //       : (
-  //         <>
-  //           <Switch>
-  //             {/* <UnauthRoute exact path="/login" component={Login} />
-  //             <UnauthRoute path="/registration/:token" component={RegisterNewPassword} />
-  //             {/* <UnauthRoute path="/:resourceType/:resourceId" component={EditorPage} /> */}
-  //             {/* <AuthRoute path="/invitations/confirmation/:token" component={ConfirmInvite} /> */}
-  //             <Route path="" component={renderAuthRoute} />
-  //           </Switch>
-  //         </>
-  //       )}
-  //   </>
-  // ), [isPageLoading]);
 
   return (
-    <AppContainer>
-      <Route path="" component={renderAuthRoute} />
-
-      {/* {renderSwitch} */}
-      {/* <PrintContainer>
-        <FroalaEditorView model={printData} />
-      </PrintContainer> */}
-    </AppContainer>
+    <Route path="" component={renderAuthRoute} />
   );
 };
-
-// const mapStateToProps = (state) => ({
-//   isPageLoading: systemSelectors.getIsLoading(state),
-//   printData: systemSelectors.getPrintDataSelector(state),
-// });
 
 Router.propTypes = {
   isPageLoading: PropTypes.bool.isRequired,

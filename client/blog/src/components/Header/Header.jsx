@@ -3,31 +3,17 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
-  Menu, Dropdown,
+  Menu, Dropdown, Col,
 } from 'antd';
-import Icon from '@ant-design/icons';
+import { SettingOutlined } from '@ant-design/icons';
 
 import {
-  TopNavContainer,
-  LogoContainer,
-  SearchBarContainer,
-  MenuContainer,
-  ProfileContainer,
+  RowContainer, ImageContainer, InfoWrapper, ProfileContainer,
   SettingTabContainer,
 } from './styles';
+import { ActionMenuItem } from '../styles'
 import Avatar from '../Avatar/Avatar';
-// import { ROLE_VALUE } from '../../utils/constants';
-// import ChangePassword from '../../containers/ModelForm/ChangePassword';
-import { ActionMenuItem } from '../styles';
-import LogoSvg from '../../common/images/logo.png';
-// import UserDetail from '../../containers/UserDetail';
-// import Notifications from '../../containers/Notification';
-// import { getBrowser } from '../../utils/funcUtils';
-// import { firebaseMessaging } from '../../utils/myFirebase';
-// import SearchBar from '../../containers/Search';
-
-// Get browser detail
-// const { fingerprint } = getBrowser();
+import LogoSvg from '../../common/images/duc.png';
 
 const pageIndexMapping = {
   '/': 1,
@@ -35,11 +21,7 @@ const pageIndexMapping = {
 };
 
 const Header = (props) => {
-  const {
-    location, logout, firstName, lastName, role, color, userId, avatar, isFullscreen,
-    selectResource, unsubscribeDevice, isPageLoading,
-  } = props;
-
+  const { firstName, lastName, role, location } = props;
   const [toggleModal, setToggleModal] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
   const { pathname } = location;
@@ -57,15 +39,8 @@ const Header = (props) => {
   };
 
   const handleLogOut = (async () => {
-    // if (firebaseMessaging !== null && firebaseMessaging.permission === 'granted') {
-    //   const token = await firebaseMessaging.getToken();
-    //   unsubscribeDevice(token, fingerprint);
-    //   logout();
-    // } else {
-    //   logout();
-    // }
+    console.log('clicked')
   });
-
   const renderSettingTab = () => (
     <SettingTabContainer>
       <Menu>
@@ -88,67 +63,42 @@ const Header = (props) => {
       </Menu>
     </SettingTabContainer>
   );
-
   return (
-    <TopNavContainer isFullscreen={isFullscreen}>
-      <LogoContainer onClick={() => selectResource({ _id: '', type: '' })}>
-        <Link to="/">
-          <img src={LogoSvg} alt="logo" />
-        </Link>
-      </LogoContainer>
-      <SearchBarContainer>
-        {/* <SearchBar /> */}
-      </SearchBarContainer>
-      <MenuContainer>
-        {!isPageLoading && (
-          <div className="notification">
-            {/* <Notifications /> */}
-          </div>
-        )}
-        <div className="avatar">
-          <Avatar color={color} src={avatar || ''} />
-        </div>
-        <ProfileContainer>
-          <p>{`${firstName} ${lastName}`}</p>
-          <span>{role}</span>
-        </ProfileContainer>
-        <Dropdown overlay={renderSettingTab()} placement="topRight" trigger={['click']}>
-          <Icon type="setting" />
-        </Dropdown>
-      </MenuContainer>
-      {/* {toggleModal && (
-        // <UserDetail userDetail={{ ...props, _id: userId }} toggleModal={onToggleModal} />
-      )} */}
-    </TopNavContainer>
+    <RowContainer>
+      <Col className="gutter-row" span={5}>
+        <ImageContainer>
+          <Link to="/">
+            <img src={LogoSvg} alt="" /></Link>
+        </ImageContainer>
+      </Col>
+      <Col className="gutter-row" span={19}>
+        <InfoWrapper>
+          <Avatar src={LogoSvg} color="red" />
+          <ProfileContainer>
+            <p>{`${firstName || "Duc"} ${lastName || "Dev"}`}</p>
+            <span>{role || " Super Admin"}</span>
+          </ProfileContainer>
+          <Dropdown overlay={renderSettingTab()} placement="topRight" trigger={['click']}>
+            <SettingOutlined />
+          </Dropdown>
+        </InfoWrapper>
+      </Col>
+    </RowContainer>
   );
 };
 
 Header.defaultProps = {
-  location: {},
-  logout: null,
-  firstName: null,
-  lastName: null,
-  role: null,
-  color: null,
-  userId: null,
-  avatar: null,
-  isFullscreen: false,
-  isPageLoading: false,
+  firstName: '',
+  lastName: '',
+  role: '',
+  location: '',
 };
 
 Header.propTypes = {
-  location: PropTypes.object,
-  logout: PropTypes.func,
   firstName: PropTypes.string,
   lastName: PropTypes.string,
   role: PropTypes.string,
-  color: PropTypes.string,
-  userId: PropTypes.string,
-  avatar: PropTypes.string,
-  isFullscreen: PropTypes.bool,
-  selectResource: PropTypes.func.isRequired,
-  unsubscribeDevice: PropTypes.func.isRequired,
-  isPageLoading: PropTypes.bool,
+  location: PropTypes.string,
 };
 
 export default Header;
