@@ -1,13 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+
+import configureStore from './store/configureStore';
 import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-import 'antd/dist/antd.css';
+
+import App from './container/App';
+
+const store = configureStore();
 
 ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-);
+  <Provider store={store}>
+    <App />
+  </Provider>
+  , document.getElementById('root'));
 
-serviceWorker.unregister();
