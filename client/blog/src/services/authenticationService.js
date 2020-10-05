@@ -1,6 +1,6 @@
 export const registerUserService = (request) => {
-  const REGISTER_API_ENDPOINT = 'http://localhost:3000/api/v1/register';
-  
+  const REGISTER_API_ENDPOINT = 'http://localhost:33336/api/user/signup';
+
   const parameters = {
     method: 'POST',
     headers: {
@@ -18,8 +18,8 @@ export const registerUserService = (request) => {
     });
 };
 
-export const loginUserService = (request) => {
-  const LOGIN_API_ENDPOINT = 'http://localhost:3000/api/v1/login';
+export const loginUserService = async (request) => {
+  const LOGIN_API_ENDPOINT = await 'http://localhost:33336/api/users/login';
 
   const parameters = {
     method: 'POST',
@@ -35,5 +35,5 @@ export const loginUserService = (request) => {
     })
     .then(json => {
       return json;
-    });
+    }).catch(err => console.log(err))
 };

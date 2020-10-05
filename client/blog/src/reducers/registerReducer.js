@@ -1,13 +1,18 @@
-import * as types from '../actions';
+import { fromJS } from 'immutable';
+import { REGISTER_USER, REGISTER_USER_SUCCESS, REGISTER_USER_ERROR } from '../actions';
 
-export default function(state = [], action) {
-  let response = action.response;
+const initialState = fromJS({
+  isRegister: false,
 
-  switch(action.type) {
-    case types.REGISTER_USER_SUCCESS:
-      return { ...state, response };
-    case types.REGISTER_USER_ERROR:
-      return { ...state, response };
+})
+
+export default function (state = initialState, action) {
+  switch (action.type) {
+    case REGISTER_USER:
+      return state.set('isRegister', true);
+    case REGISTER_USER_SUCCESS:
+    case REGISTER_USER_ERROR:
+      return state.set('isRegister', false)
     default:
       return state;
   }

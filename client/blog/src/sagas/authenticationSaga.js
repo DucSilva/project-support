@@ -1,26 +1,45 @@
 import { put, call } from 'redux-saga/effects';
-import { registerUserService, loginUserService } from '../services/authenticationService';
+import * as AuthApi from '../api/authentication';
+import authenticationActions from '../actions/authenticationActions';
+import { notification } from 'antd';
 
-import * as types from '../actions'
-
-export function* registerSaga(payload) {
+export function* registerSaga({ user, callback }) {
+  const { username, password, email } = user;
   try {
-    const response = yield call(registerUserService, payload);
-    yield [
-      put({ type: types.REGISTER_USER_SUCCESS, response })
-    ];
-  } catch(error) {
-    yield put({ type: types.REGISTER_USER_ERROR, error });
+    const { response, error } = yield call(AuthApi.register, username, password, email);
+    if (error) {
+      yield put(authenticationActions.registerError(error))
+      notification.error({ message: error.message });
+    }
+    else {
+      const { existingUser, message, token } = response.data;
+      console.log('saga', { existingUser, message, token })
+      yield put(authenticationActions.registerSuccess({ existingUser, message, token }))
+      notification.success({ message: 'Login success' });
+      if (callback) callback()
+    }
+  } catch (error) {
+    yield put(authenticationActions.registerError(error))
   }
 }
 
-export function* loginSaga(payload) {
+export function* loginSaga({ user, callback }) {
+  console.log('payload', user)
+  const { username, password } = user;
   try {
-    const response = yield call(loginUserService, payload);
-    yield [
-      put({ type: types.LOGIN_USER_SUCCESS, response })
-    ];
-  } catch(error) {
-    yield put({ type: types.LOGIN_USER_ERROR, error })
+    const { response, error } = yield call(AuthApi.login, username, password);
+    if (error) {
+      yield put(authenticationActions.loginError(error))
+      notification.error({ message: error.message });
+    }
+    else {
+      const { existingUser, message, token } = response.data;
+      console.log('saga', { existingUser, message, token })
+      yield put(authenticationActions.loginSuccess({ existingUser, message, token }))
+      notification.success({ message: 'Login success' });
+      if (callback) callback()
+    }
+  } catch (error) {
+    yield put(authenticationActions.loginError(error))
   }
 }

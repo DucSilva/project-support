@@ -1,15 +1,56 @@
 import * as types from './index';
 
-export const registerUserAction = (user) => {
+// Register
+const register = (user) => {
   return {
     type: types.REGISTER_USER,
     user
   }
 };
 
-export const loginUserAction = (user) => {
+const registerSuccess = (user) => {
+  return {
+    type: types.REGISTER_USER_SUCCESS,
+    user
+  }
+};
+
+const registerError = (error) => {
+  return {
+    type: types.REGISTER_USER_ERROR,
+    error
+  }
+};
+
+//Login
+const login = (user) => {
   return {
     type: types.LOGIN_USER,
     user
   }
 };
+
+const loginSuccess = (data) => {
+  return {
+    type: types.LOGIN_USER_SUCCESS,
+    data
+  }
+};
+
+const loginError = (error) => {
+  return {
+    type: types.LOGIN_USER_ERROR,
+    error
+  }
+};
+
+const authenticationActions = {
+  login,
+  loginSuccess,
+  loginError,
+  register,
+  registerSuccess,
+  registerError,
+};
+
+export default authenticationActions;
