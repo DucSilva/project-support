@@ -4,12 +4,14 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import logger from 'morgan';
+import cors from "cors";
 import dotenv from 'dotenv';
 import mainRoutes from './server/routes/main';
 import homeRoute from './server/routes/index';
 
 // set up dependencies
 const app = express();
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(logger('dev'));
@@ -45,6 +47,12 @@ app.get('*', (req, res) => {
     res.status(400).json({
         message: 'This is Project Support. Please see documentation for the proper routes.',
     });
+});
+
+app.all('/', function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next()
 });
 
 app.listen(port);
