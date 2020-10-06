@@ -31,6 +31,7 @@ const login = (user) => {
 };
 
 const loginSuccess = (data) => {
+  console.log('dataNewUser', data)
   return {
     type: types.LOGIN_USER_SUCCESS,
     data

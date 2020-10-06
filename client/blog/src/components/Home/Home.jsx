@@ -1,11 +1,14 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 const Home = (props) => {
-    return (
-        <>
-            <h1>Home</h1>
-        </>
-    )
+    const { token, user } = props;
+
+    if (!token) {
+        return <Redirect to="/login" />;
+    }
+
+    return <div> {user.username}</div>;
 }
 
 export default Home;

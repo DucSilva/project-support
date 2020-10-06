@@ -6,7 +6,7 @@ const initialState = fromJS({
   isLoggedIn: false,
   message: '',
   existingUser: {},
-  token: ''
+  token: '',
 });
 
 export default function (state = initialState, action) {
@@ -14,7 +14,6 @@ export default function (state = initialState, action) {
     case types.LOGIN_USER:
       return state.set('isLogin', true).set('isLoggedIn', false);
     case types.LOGIN_USER_SUCCESS: {
-      // console.log('action===>>', action)
       const { existingUser, message, token } = action.data;
       return state.set('isLogin', false)
         .set('existingUser', existingUser)

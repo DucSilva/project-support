@@ -1,18 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-
-import authenticationActions from '../../actions/authenticationActions';
+import { Link, Redirect } from 'react-router-dom';
 import { RegisterWrapper, FormRegister } from './styles';
 import { Input, Button, Form, Spin, Row } from 'antd';
 import { UserOutlined, LockOutlined, GoogleOutlined } from '@ant-design/icons';
-import authSelector from '../../selector/authSelector';
 
 
 const RegisterPage = (props) => {
-  const { isRegister, register } = props;
+  const { isRegister, register, isSuccess } = props;
   const onHandleRegistration = (values) => {
-    console.log(values);
     register(values)
   }
 
@@ -20,6 +15,7 @@ const RegisterPage = (props) => {
   return (
     <RegisterWrapper>
       <h3> Register Page </h3>
+      {!isSuccess ? null : <Redirect to='login' />}
       <FormRegister>
         <Form
           name="register"
@@ -87,16 +83,6 @@ const RegisterPage = (props) => {
 
 }
 
-const mapStateToProps = (state) => {
-  const isRegister = authSelector.getIsRegister(state);
 
-  return {
-    isRegister
-  };
-};
 
-const mapDispatchToProps = {
-  register: authenticationActions.register,
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterPage);
+export default RegisterPage;

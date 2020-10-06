@@ -12,10 +12,9 @@ export function* registerSaga({ user, callback }) {
       notification.error({ message: error.message });
     }
     else {
-      const { existingUser, message, token } = response.data;
-      console.log('saga', { existingUser, message, token })
-      yield put(authenticationActions.registerSuccess({ existingUser, message, token }))
-      notification.success({ message: 'Login success' });
+      const { newUser, message, token } = response.data;
+      yield put(authenticationActions.registerSuccess({ newUser, message, token }))
+      notification.success({ message: 'Register User success' });
       if (callback) callback()
     }
   } catch (error) {
@@ -24,7 +23,6 @@ export function* registerSaga({ user, callback }) {
 }
 
 export function* loginSaga({ user, callback }) {
-  console.log('payload', user)
   const { username, password } = user;
   try {
     const { response, error } = yield call(AuthApi.login, username, password);
@@ -34,12 +32,13 @@ export function* loginSaga({ user, callback }) {
     }
     else {
       const { existingUser, message, token } = response.data;
-      console.log('saga', { existingUser, message, token })
       yield put(authenticationActions.loginSuccess({ existingUser, message, token }))
+      localStorage.setItem('data', response.data);
       notification.success({ message: 'Login success' });
       if (callback) callback()
     }
   } catch (error) {
     yield put(authenticationActions.loginError(error))
+    localStorage.removeItem('data');
   }
 }
