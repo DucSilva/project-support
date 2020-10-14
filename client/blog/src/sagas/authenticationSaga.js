@@ -33,12 +33,13 @@ export function* loginSaga({ user, callback }) {
     else {
       const { existingUser, message, token } = response.data;
       yield put(authenticationActions.loginSuccess({ existingUser, message, token }))
-      localStorage.setItem('data', response.data);
+      console.log('token===>>', token)
+      localStorage.setItem('token', token);
       notification.success({ message: 'Login success' });
       if (callback) callback()
     }
   } catch (error) {
     yield put(authenticationActions.loginError(error))
-    localStorage.removeItem('data');
+    localStorage.removeItem('token');
   }
 }

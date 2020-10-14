@@ -14,9 +14,7 @@ const store = configureStore();
 const persistor = persistStore(store); // used to create the persisted store, persistor will be used in the next step
 ReactDOM.render(
   <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <App />
-    </PersistGate>
+    <App />
   </Provider>
   , document.getElementById('root'));
 
