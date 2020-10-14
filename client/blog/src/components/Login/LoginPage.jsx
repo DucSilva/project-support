@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Input, Button, Form, Spin } from 'antd';
@@ -11,19 +11,22 @@ import authSelector from '../../selector/authSelector';
 
 
 const LoginPage = (props) => {
-  const { login, message, isLogin, isLoggedIn } = props;
+  const { login, message, isLogin, isLoggedIn, history, token } = props;
+
+  if (token) {
+    return <Redirect to='/' />
+  }
+
   const onFinish = (values) => {
     // console.log('Received values of form: ', values);
     login(values);
   };
 
-
-
   return (
-    <LoginWrapper>
-      <h3> Login Page </h3>
-      <LoginForm>
-        {!isLoggedIn ?
+    <>
+      <LoginWrapper>
+        <h3> Login Page </h3>
+        <LoginForm>
           <Form
             name="normal_login"
             className="login-form"
@@ -64,23 +67,25 @@ const LoginPage = (props) => {
               <Form.Item>
                 <Button type="primary" htmlType="submit" className="login-form-button">
                   Log in
-            </Button>
-            Or <Link to="/register">register now!</Link>
+              </Button>
+              Or <Link to="/register">register now!</Link>
               </Form.Item>
             </Spin>
           </Form>
-          : <Redirect to='/dashboard' />}
-      </LoginForm>
-    </LoginWrapper>
+        </LoginForm>
+      </LoginWrapper>
+    </>
   );
 };
 
 const mapStateToProps = (state) => {
   const isLogin = authSelector.getIsLogin(state);
   const isLoggedIn = authSelector.checkAuthenticatedStatus(state);
+  const token = authSelector.getToken(state);
   return {
     isLogin,
     isLoggedIn,
+    token,
   }
 };
 
