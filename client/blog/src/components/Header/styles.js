@@ -9,7 +9,7 @@ export const ActionMenuItem = styled(Menu.Item)`
 `;
 
 export const RowContainer = styled(Row)`
-  height: 100px;
+  height: 50px;
   padding: 0 5px;
   background-color: #e6f7ff;
   display: flex;
