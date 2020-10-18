@@ -21,7 +21,7 @@ const pageIndexMapping = {
 
 const Header = (props) => {
     const { user, location } = props;
-    const username = _get(user, 'username', '')
+    const username = _get(user, 'username', '');
     const role = _get('user.role', '')
     const [toggleModal, setToggleModal] = useState(false);
     const [pageIndex, setPageIndex] = useState(0);
