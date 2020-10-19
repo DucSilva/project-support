@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import _get from 'lodash/get'
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import {
     Menu, Dropdown, Col,
 } from 'antd';
@@ -39,9 +39,12 @@ const Header = (props) => {
         setToggleModal((prevToggleModal) => !prevToggleModal);
     };
 
-    const handleLogOut = (async () => {
+    const handleLogOut = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('existingUser');
+        return <Redirect to='/login' />
+    }
 
-    });
     const renderSettingTab = () => (
         <SettingTabContainer>
             <Menu>
