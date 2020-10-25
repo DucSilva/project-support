@@ -14,7 +14,6 @@ const Home = (props) => {
     if (!token && !tokenLocal) return <Redirect to='/login' />
     return (
         <>
-            <Header {...props} />
             <Post />
         </>
     )

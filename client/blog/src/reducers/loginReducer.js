@@ -1,4 +1,4 @@
-import * as types from '../actions';
+import { LOGIN_USER, LOGIN_USER_SUCCESS, LOGIN_USER_ERROR } from '../actions/index';
 import { fromJS } from 'immutable';
 
 const user = localStorage.getItem('existingUser');
@@ -13,9 +13,9 @@ const initialState = fromJS({
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case types.LOGIN_USER:
+    case LOGIN_USER:
       return state.set('isLogin', true).set('isLoggedIn', false);
-    case types.LOGIN_USER_SUCCESS: {
+    case LOGIN_USER_SUCCESS: {
       const { existingUser, message, token } = action.data;
       return state.set('isLogin', false)
         .set('existingUser', fromJS(existingUser))
@@ -23,7 +23,7 @@ export default function (state = initialState, action) {
         .set('message', message)
         .set('isLoggedIn', true);
     }
-    case types.LOGIN_USER_ERROR: {
+    case LOGIN_USER_ERROR: {
       const { message } = action;
       return state.set('isLogin', false)
         .set('message', message);

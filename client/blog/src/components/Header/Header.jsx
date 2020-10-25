@@ -66,25 +66,27 @@ const Header = (props) => {
         </SettingTabContainer>
     );
     return (
-        <RowContainer>
-            <Col className="gutter-row" span={5}>
-                <ImageContainer>
-                    <Link to="/">MeCode</Link>
-                </ImageContainer>
-            </Col>
-            <Col className="gutter-row" span={19}>
-                <InfoWrapper>
-                    <Avatar src={LogoSvg} color="red" />
-                    <ProfileContainer>
-                        <p>{`${username || "Duc"}`}</p>
-                        <span>{role || " Super Admin"}</span>
-                    </ProfileContainer>
-                    <Dropdown overlay={renderSettingTab()} placement="topRight" trigger={['click']}>
-                        <SettingOutlined />
-                    </Dropdown>
-                </InfoWrapper>
-            </Col>
-        </RowContainer>
+        <>
+            {pathname === '/login' || pathname === '/register' ? null : <RowContainer>
+                <Col className="gutter-row" span={5}>
+                    <ImageContainer>
+                        <Link to="/">MeCode</Link>
+                    </ImageContainer>
+                </Col>
+                <Col className="gutter-row" span={19}>
+                    <InfoWrapper>
+                        <Avatar src={LogoSvg} color="red" />
+                        <ProfileContainer>
+                            <p>{`${username || "Duc"}`}</p>
+                            <span>{role || " Super Admin"}</span>
+                        </ProfileContainer>
+                        <Dropdown overlay={renderSettingTab()} placement="topRight" trigger={['click']}>
+                            <SettingOutlined />
+                        </Dropdown>
+                    </InfoWrapper>
+                </Col>
+            </RowContainer>}
+        </>
     );
 };
 

@@ -1,28 +1,23 @@
-import * as types from '../actions';
+import { GET_ALL_POST, GET_ALL_POST_SUCCESS, GET_ALL_POST_ERROR } from '../actions/index';
 import { fromJS } from 'immutable';
-
-const user = localStorage.getItem('existingUser');
 
 const initialState = fromJS({
   isFetching: false,
-
+  post: fromJS([]),
 });
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case types.LOGIN_USER:
-      return state.set('isLogin', true).set('isLoggedIn', false);
-    case types.LOGIN_USER_SUCCESS: {
-      const { existingUser, message, token } = action.data;
-      return state.set('isLogin', false)
-        .set('existingUser', fromJS(existingUser))
-        .set('token', token)
-        .set('message', message)
-        .set('isLoggedIn', true);
+    case GET_ALL_POST:
+      return state.set('isFetching', true);
+    case GET_ALL_POST_SUCCESS: {
+      const { data } = action;
+      return state.set('isFetching', false)
+        .set('post', fromJS(data))
     }
-    case types.LOGIN_USER_ERROR: {
+    case GET_ALL_POST_ERROR: {
       const { message } = action;
-      return state.set('isLogin', false)
+      return state.set('isFetching', false)
         .set('message', message);
     }
 

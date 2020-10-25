@@ -1,40 +1,38 @@
 import React, { useEffect } from 'react';
-import { Button, Table } from 'antd';
+import { Button, Spin, Table } from 'antd';
 import { useState } from 'react';
 
-const columns = [
-    {
-        title: 'Name',
-        dataIndex: 'name',
-    },
-    {
-        title: 'Age',
-        dataIndex: 'age',
-    },
-    {
-        title: 'Address',
-        dataIndex: 'address',
-    },
-];
-
-const data = [];
-for (let i = 0; i < 46; i++) {
-    data.push({
-        key: i,
-        name: `Edward King ${i}`,
-        age: 32,
-        address: `London, Park Lane no. ${i}`,
-    });
-}
-
 const Post = (props) => {
+    const { post, isFetching, } = props;
+    const { getAllPost } = props;
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    const columns = [
+        {
+            title: 'Title',
+            dataIndex: 'title',
+        },
+        {
+            title: 'Description',
+            dataIndex: 'description',
+        },
+        {
+            title: 'Action',
+            dataIndex: 'action',
+            render() {
+                return (
+                    <>
+                        ABC
+                    </>
+                )
+            },
+        },
+    ];
 
     const hasSelected = selectedRowKeys.length > 0;
 
     const onSelectChange = selectedRowKeys => {
-        console.log('selectedRowKeys changed: ', selectedRowKeys);
         setSelectedRowKeys(selectedRowKeys)
     };
 
@@ -54,8 +52,13 @@ const Post = (props) => {
     useEffect(() => {
         clearTimeout(start)
     })
+
+    useEffect(() => {
+        getAllPost();
+    }, []);
+
     return (
-        <>
+        <Spin spinning={isFetching}>
             <div style={{ marginBottom: 16 }}>
                 <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>
                     Reload
@@ -64,8 +67,13 @@ const Post = (props) => {
                     {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
                 </span>
             </div>
-            <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
-        </>
+            <Table
+                rowSelection={rowSelection}
+                columns={columns}
+                dataSource={post}
+                rowKey="_id"
+            />
+        </Spin>
     )
 }
 
