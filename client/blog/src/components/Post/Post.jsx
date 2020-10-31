@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
-import { Button, Spin, Table } from 'antd';
+import { Button, Spin, Table, Modal } from 'antd';
 import { useState } from 'react';
+import PostModal from '../Modal/Post';
 
 const Post = (props) => {
-    const { post, isFetching, } = props;
+    const { post, isFetching, createPost, token } = props;
     const { getAllPost } = props;
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     const columns = [
         {
@@ -41,28 +42,25 @@ const Post = (props) => {
         onChange: onSelectChange,
     };
 
-    const start = () => {
-        setLoading(true);
-        setTimeout(() => {
-            setSelectedRowKeys([]);
-            setLoading(false)
-        }, 1000)
+    useEffect(() => {
+        getAllPost(token);
+    }, []);
+
+    const onToggleModal = () => {
+        setIsOpen(!isOpen)
     }
 
-    useEffect(() => {
-        clearTimeout(start)
-    })
-
-    useEffect(() => {
-        getAllPost();
-    }, []);
+    const handleOk = (values) => {
+        const { title, description } = values;
+        createPost({ title, description, token })
+    }
 
     return (
         <Spin spinning={isFetching}>
             <div style={{ marginBottom: 16 }}>
-                <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>
-                    Reload
-                    </Button>
+                <Button type="primary" onClick={onToggleModal}>
+                    Create Post
+                </Button>
                 <span style={{ marginLeft: 8 }}>
                     {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
                 </span>
@@ -73,6 +71,16 @@ const Post = (props) => {
                 dataSource={post}
                 rowKey="_id"
             />
+
+            <Modal
+                visible={isOpen}
+                title="Title"
+                onOk={handleOk}
+                onCancel={onToggleModal}
+                footer={null}
+            >
+                <PostModal handleOk={handleOk} onCancel={onToggleModal} />
+            </Modal>
         </Spin>
     )
 }

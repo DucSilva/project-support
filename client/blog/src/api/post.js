@@ -6,7 +6,7 @@ import { handleError } from './utils';
  */
 
 export const createPost = (title, description, token) => axios
-    .post('posts', { headers: { 'x-access-token': token } }, {
+    .post('posts', { headers: { Authorization: `Bearer ${token}` } }, {
         title, description
     })
     .then((response) => ({ response }))
@@ -18,6 +18,6 @@ export const createPost = (title, description, token) => axios
  */
 
 export const getAllPosts = (token) => axios
-    .get('posts', { headers: { 'x-access-token': token } })
+    .get('posts', { headers: { Authorization: `Bearer ${token}` } })
     .then((response) => ({ response }))
     .catch(handleError);
