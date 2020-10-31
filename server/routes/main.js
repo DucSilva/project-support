@@ -6,7 +6,7 @@ import verifyToken from '../middleware/verifytoken';
 const router = express.Router();
 // Create post
 router.post('/posts', verifyToken, createPost);
-router.get('/posts', getAllPost);
+router.get('/posts', verifyToken, getAllPost);
 router.get('/posts/:postId', getSinglePost);
 router.patch('/posts/:postId', updatePost);
 router.delete('/posts/:postId', deletePost);
