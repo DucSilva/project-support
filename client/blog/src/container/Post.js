@@ -17,7 +17,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     getAllPost: postActions.getAllPost,
-    createPost: postActions.createPost
+    createPost: postActions.createPost,
+    updatePost: postActions.updatePost
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post);

@@ -10,6 +10,7 @@ const token = localStorage.getItem('token');
 export function configAxios() {
     axios.defaults.baseURL = `${BASE_URL}/api`;
     axios.defaults.headers.post['Content-Type'] = 'application/json';
+    axios.defaults.headers.post['Content-Type'] = 'x-www-form-urlencoded';
     axios.defaults.headers['Access-Control-Request-Headers'] = 'x-access-token';
 }
 

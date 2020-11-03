@@ -1,85 +1,94 @@
 import React, { useEffect } from 'react';
-import { Button, Spin, Table, Modal } from 'antd';
+import { Button, Spin, Modal, Table, Popconfirm } from 'antd';
+import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import PostModal from '../Modal/Post';
+import { TableWrapper } from './styles';
+import { ButtonFooterWrapper } from '../Modal/styles';
+import { DELETE_POST } from '../../actions/index';
 
+const { Column } = Table;
 const Post = (props) => {
-    const { post, isFetching, createPost, token } = props;
+    const { post, isFetching, createPost, token, updatePost } = props;
     const { getAllPost } = props;
-    const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-    const [isOpen, setIsOpen] = useState(false);
+    const [isCreate, setIsCreate] = useState(false);
+    const [isUpdate, setIsUpdate] = useState(false);
+    const [postDetail, setPostDetail] = useState({});
+    const [selectedId, setSelectedId] = useState('');
 
-    const columns = [
-        {
-            title: 'Title',
-            dataIndex: 'title',
-        },
-        {
-            title: 'Description',
-            dataIndex: 'description',
-        },
-        {
-            title: 'Action',
-            dataIndex: 'action',
-            render() {
-                return (
-                    <>
-                        ABC
-                    </>
-                )
-            },
-        },
-    ];
+    //use Dispatch
+    const dispatch = useDispatch();
 
-    const hasSelected = selectedRowKeys.length > 0;
-
-    const onSelectChange = selectedRowKeys => {
-        setSelectedRowKeys(selectedRowKeys)
-    };
-
-    const rowSelection = {
-        selectedRowKeys,
-        onChange: onSelectChange,
-    };
+    // create post function
+    const handleCreate = () => {
+        setIsCreate(!isCreate);
+    }
+    // update post function 
+    const handleUpdatePost = (record) => {
+        setIsUpdate(!isUpdate);
+        setPostDetail(record)
+        setSelectedId(record._id)
+    }
 
     useEffect(() => {
         getAllPost(token);
     }, []);
 
+
     const onToggleModal = () => {
-        setIsOpen(!isOpen)
+        if (isCreate) setIsCreate(!isCreate);
+        if (isUpdate) setIsUpdate(!isUpdate);
     }
 
     const handleOk = (values) => {
         const { title, description } = values;
-        createPost({ title, description, token })
+        if (isCreate) createPost({ title, description, token }, onToggleModal());
+        if (isUpdate) updatePost({ selectedId, title, description, token }, onToggleModal())
     }
+
+    const handleDelete = (id) => dispatch({ type: DELETE_POST, id, token })
 
     return (
         <Spin spinning={isFetching}>
-            <div style={{ marginBottom: 16 }}>
-                <Button type="primary" onClick={onToggleModal}>
-                    Create Post
-                </Button>
-                <span style={{ marginLeft: 8 }}>
-                    {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
-                </span>
-            </div>
-            <Table
-                rowSelection={rowSelection}
-                columns={columns}
+            <Button type="primary" onClick={handleCreate}>
+                Create Post
+                    </Button>
+            <TableWrapper
                 dataSource={post}
-                rowKey="_id"
-            />
+                pagination={
+                    {
+                        pageSize: 8,
+                        position: ['bottomLeft'],
+                    }
+                }
+            >
+                <Column title="Title" dataIndex="title" key="title" />
+                <Column title="Description" dataIndex="description" key="description" />
+                <Column
+                    title="Action"
+                    key="action"
+                    render={(text, record) => (
+                        <ButtonFooterWrapper isPost>
+                            <Button type='primary' onClick={() => handleUpdatePost(record)}>Update</Button>
+                            <Button type="danger">
+                                <Popconfirm placement="topLeft" title={`Are you sure delete ${record.title} ?`} okText="Yes" onConfirm={() => handleDelete(record._id)} cancelText="No">
+                                    Delete
+                                </Popconfirm>
+                            </Button>
+
+                        </ButtonFooterWrapper>
+                    )}
+                />
+            </TableWrapper>
 
             <Modal
-                visible={isOpen}
-                title="Title"
+                visible={isUpdate || isCreate}
+                title={isUpdate ? 'Update Post' : "Create Post"}
                 onOk={handleOk}
                 onCancel={onToggleModal}
                 footer={null}
             >
-                <PostModal handleOk={handleOk} onCancel={onToggleModal} />
+                <PostModal handleOk={handleOk} onCancel={onToggleModal} isUpdate={isUpdate} isCreate={isCreate} postDetail={postDetail} />
             </Modal>
         </Spin>
     )

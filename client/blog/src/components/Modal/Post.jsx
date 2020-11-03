@@ -1,14 +1,52 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Form, Input, Button } from 'antd';
+import _get from 'lodash/get';
 import { ButtonFooterWrapper } from './styles';
 
 const PostModal = (props) => {
-    const { handleOk, onCancel } = props;
+    const formRef = useRef(null)
+    const { handleOk, onCancel, isUpdate, postDetail, isCreate } = props;
+    const [form] = Form.useForm();
+    const [formValues, setFormValues] = useState({});
+    const titlePost = _get(formValues, 'title', '')
+    const descriptionPost = _get(formValues, 'description', '');
+    console.log('postDetail===>>', postDetail)
+    console.log('isCreate===>>', isCreate)
+    console.log('isUpdate===>>', isUpdate)
+    console.log('descriptionPost===>>', descriptionPost)
+    console.log('titlePost===>>', titlePost)
+    useEffect(() => {
+        if (isUpdate) setFormValues(postDetail)
+        else setFormValues({})
+    }, [isUpdate]);
+
+    // useEffect(() => {
+    //     setFormValues({})
+    // }, [isCreate])
+
+    const handleResetForm = () => {
+        formRef.current.resetFields();
+    }
+
+    const handleFinish = (values) => {
+        handleOk(values, handleResetForm);
+    }
+
+    const handleCancel = () => {
+        onCancel();
+        handleResetForm();
+    }
+
 
     return (
         <Form
-            onFinish={handleOk}
-            onCancel={onCancel}
+            onFinish={handleFinish}
+            onCancel={handleCancel}
+            defaultValue={isUpdate ? postDetail : {}}
+            initialValues={isCreate ? {} : postDetail}
+            // defaultValue={postDetail}
+            form={form}
+            ref={formRef}
         >
             <Form.Item
                 name="title"
@@ -20,7 +58,7 @@ const PostModal = (props) => {
                     },
                 ]}
             >
-                <Input />
+                <Input value={isUpdate ? titlePost : ''} />
             </Form.Item>
 
             <Form.Item
@@ -33,7 +71,7 @@ const PostModal = (props) => {
                     },
                 ]}
             >
-                <Input />
+                <Input value={isUpdate ? descriptionPost : ''} />
             </Form.Item>
             <Form.Item>
                 <ButtonFooterWrapper>

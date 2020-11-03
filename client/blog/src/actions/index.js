@@ -17,3 +17,11 @@ export const GET_ALL_POST_ERROR = 'post/GET_ALL_POST_ERROR';
 export const CREATE_POST = 'post/CREATE_POST';
 export const CREATE_POST_SUCCESS = 'post/CREATE_POST_SUCCESS';
 export const CREATE_POST_ERROR = 'post/CREATE_POST_ERROR';
+
+export const UPDATE_POST = 'post/UPDATE_POST';
+export const UPDATE_POST_SUCCESS = 'post/UPDATE_POST_SUCCESS';
+export const UPDATE_POST_ERROR = 'post/UPDATE_POST_ERROR';
+
+export const DELETE_POST = 'post/DELETE_POST';
+export const DELETE_POST_SUCCESS = 'post/DELETE_POST_SUCCESS';
+export const DELETE_POST_ERROR = 'post/DELETE_POST_ERROR';
