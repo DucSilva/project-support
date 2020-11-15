@@ -9,8 +9,7 @@ import { DELETE_POST } from '../../actions/index';
 
 const { Column } = Table;
 const Post = (props) => {
-    const { post, isFetching, createPost, token, updatePost } = props;
-    const { getAllPost } = props;
+    const { post, isFetching, createPost, token, updatePost, getAllPost } = props;
     const [isCreate, setIsCreate] = useState(false);
     const [isUpdate, setIsUpdate] = useState(false);
     const [postDetail, setPostDetail] = useState({});
@@ -32,7 +31,7 @@ const Post = (props) => {
 
     useEffect(() => {
         getAllPost(token);
-    }, []);
+    }, [isCreate]);
 
 
     const onToggleModal = () => {
@@ -42,8 +41,8 @@ const Post = (props) => {
 
     const handleOk = (values) => {
         const { title, description } = values;
-        if (isCreate) createPost({ title, description, token }, onToggleModal());
-        if (isUpdate) updatePost({ selectedId, title, description, token }, onToggleModal())
+        if (isCreate) createPost({ title, description, token }, onToggleModal(), getAllPost(token));
+        if (isUpdate) updatePost({ selectedId, title, description, token }, onToggleModal(), getAllPost(token))
     }
 
     const handleDelete = (id) => dispatch({ type: DELETE_POST, id, token })

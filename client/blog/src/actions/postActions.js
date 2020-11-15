@@ -57,7 +57,6 @@ const updatePost = (payload) => {
 }
 
 const updatePostSuccess = (data) => {
-  console.log('data===>>', data)
   return {
     type: UPDATE_POST_SUCCESS,
     data
@@ -73,8 +72,6 @@ const updatePostError = (error) => {
 
 // Delete post 
 const deletePost = (id, token) => {
-  debugger
-  console.log('payload action', id, token)
   return {
     type: DELETE_POST,
     id,
@@ -83,7 +80,6 @@ const deletePost = (id, token) => {
 }
 
 const deletePostSuccess = (data) => {
-  console.log('data===>>', data)
   return {
     type: DELETE_POST_SUCCESS,
     data

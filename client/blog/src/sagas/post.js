@@ -38,8 +38,8 @@ export function* createPost({ payload, callback }) {
             const { data } = response;
             yield put(postActions.createPostSuccess(data))
             notification.success({ message: 'Create new Post success' });
-            if (callback) callback();
         }
+        if (callback) callback();
     } catch (error) {
         yield put(postActions.createPostError(error))
     }
