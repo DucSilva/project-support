@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon app.js --exec babel-node"
+    "dev": "nodemon app.js --exec babel-node",
+    "start": "node server/app.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install npm && run build"
   },
   "repository": {
     "type": "git",
@@ -34,5 +36,8 @@
     "eslint": "6.6.0",
     "eslint-plugin-react": "^7.20.6",
     "nodemon": "^2.0.4"
+  },
+  "engines": {
+    "node": "10.16.0"
   }
 }

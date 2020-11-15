@@ -18,18 +18,18 @@ app.use(logger('dev'));
 // set up dotenv
 require('dotenv').config();
 // set up mongoose
-mongoose.connect('mongodb://localhost:27017/project_support')
-    .then(() => {
-        console.log('Database connected')
-    })
-    .catch((error) => {
-        console.log('Error connecting to database', error)
-    });
+// mongoose.connect('mongodb://localhost:27017/project_support')
+//     .then(() => {
+//         console.log('Database connected')
+//     })
+//     .catch((error) => {
+//         console.log('Error connecting to database', error)
+//     });
 
 mongoose.Promise = global.Promise;
 
 // connect to mongoose
-// mongoose.connect(process.env.MONGODB, { useNewUrlParser: true })
+mongoose.connect(process.env.MONGODB, { useNewUrlParser: true })
 // set up port number
 const port = process.env.PORT || 33336;
 
