@@ -79,10 +79,10 @@ const deletePost = (id, token) => {
   }
 }
 
-const deletePostSuccess = (data) => {
+const deletePostSuccess = (id) => {
   return {
     type: DELETE_POST_SUCCESS,
-    data
+    id
   }
 }
 
