@@ -71,7 +71,7 @@ const RegisterPage = (props) => {
 
             <Form.Item>
               <Button type="primary" htmlType="submit" className="register-form-button">
-                Log in
+                Register Now
               </Button>
             Already have account? <Link to='login'>Login here</Link>
             </Form.Item>

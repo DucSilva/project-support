@@ -4,7 +4,7 @@ import authSelector from '../selector/authSelector'
 
 const mapStateToProps = (state) => {
     const token = authSelector.getToken(state);
-    const user = authSelector.getUser(state);
+    const user = authSelector.getUser(state).toJS();
     return {
         token,
         user,

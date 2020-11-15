@@ -6,10 +6,10 @@ import verifyToken from '../middleware/verifytoken';
 const router = express.Router();
 // Create post
 router.post('/posts', verifyToken, createPost);
-router.get('/posts', getAllPost);
-router.get('/posts/:postId', getSinglePost);
-router.patch('/posts/:postId', updatePost);
-router.delete('/posts/:postId', deletePost);
+router.get('/posts', verifyToken, getAllPost);
+router.get('/posts/:postId', verifyToken, getSinglePost);
+router.patch('/posts/:postId', verifyToken, updatePost);
+router.delete('/posts/:postId', verifyToken, deletePost);
 
 // Create User
 router.post('/user/signup', createUser);

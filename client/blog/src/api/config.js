@@ -4,11 +4,22 @@ import { eventChannel } from 'redux-saga';
 import _get from 'lodash/get';
 
 const BASE_URL = 'http://localhost:33336';
+const token = localStorage.getItem('token');
 
 
 export function configAxios() {
     axios.defaults.baseURL = `${BASE_URL}/api`;
     axios.defaults.headers.post['Content-Type'] = 'application/json';
+    axios.defaults.headers.post['Content-Type'] = 'x-www-form-urlencoded';
+    axios.defaults.headers['Access-Control-Request-Headers'] = 'x-access-token';
+}
+
+export function configToken() {
+    if (token) {
+        axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    } else {
+        delete axios.defaults.headers.common.Authorization;
+    }
 }
 
 function listenAxiosError() {

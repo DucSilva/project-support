@@ -1,24 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Input, Button, Form, Spin } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 import authenticationActions from '../../actions/authenticationActions';
-import { setCookie } from '../../utils/cookies';
 import { LoginWrapper, LoginForm } from './styles';
 import authSelector from '../../selector/authSelector';
 
 
 const LoginPage = (props) => {
-  const { login, message, isLogin, isLoggedIn, history, token } = props;
+  const { login, isLogin, token } = props;
 
   if (token) {
     return <Redirect to='/' />
   }
 
   const onFinish = (values) => {
-    // console.log('Received values of form: ', values);
     login(values);
   };
 

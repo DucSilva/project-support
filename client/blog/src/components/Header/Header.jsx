@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import _get from 'lodash/get'
+import { Link, Redirect } from 'react-router-dom';
 import {
     Menu, Dropdown, Col,
 } from 'antd';
@@ -19,7 +20,9 @@ const pageIndexMapping = {
 };
 
 const Header = (props) => {
-    const { firstName, lastName, role, location } = props;
+    const { user, location } = props;
+    const username = _get(user, 'username', '');
+    const role = _get('user.role', '')
     const [toggleModal, setToggleModal] = useState(false);
     const [pageIndex, setPageIndex] = useState(0);
     const { pathname } = location;
@@ -36,9 +39,12 @@ const Header = (props) => {
         setToggleModal((prevToggleModal) => !prevToggleModal);
     };
 
-    const handleLogOut = (async () => {
-        console.log('clicked')
-    });
+    const handleLogOut = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('existingUser');
+        return <Redirect to='/login' />
+    }
+
     const renderSettingTab = () => (
         <SettingTabContainer>
             <Menu>
@@ -46,9 +52,7 @@ const Header = (props) => {
                     <a onClick={onToggleModal}>View Profile</a>
                 </ActionMenuItem>
                 <ActionMenuItem>
-                    {/* <ChangePassword toggleComponent={<a>Change Password</a>} /> */}
                 </ActionMenuItem>
-                {/* {(role === ROLE_VALUE.SUPER_ADMIN || role === ROLE_VALUE.ADMIN) && ( */}
                 <ActionMenuItem>
                     <Link to="/admin" onClick={() => changePageIndex(pageIndexMapping['/admin'])}>
                         Admin
@@ -62,26 +66,27 @@ const Header = (props) => {
         </SettingTabContainer>
     );
     return (
-        <RowContainer>
-            <Col className="gutter-row" span={5}>
-                <ImageContainer>
-                    {/* <Link to="/">
-                        <img src={LogoSvg} alt="" /></Link> */}
-                </ImageContainer>
-            </Col>
-            <Col className="gutter-row" span={19}>
-                <InfoWrapper>
-                    <Avatar src={LogoSvg} color="red" />
-                    <ProfileContainer>
-                        <p>{`${firstName || "Duc"} ${lastName || "Dev"}`}</p>
-                        <span>{role || " Super Admin"}</span>
-                    </ProfileContainer>
-                    <Dropdown overlay={renderSettingTab()} placement="topRight" trigger={['click']}>
-                        <SettingOutlined />
-                    </Dropdown>
-                </InfoWrapper>
-            </Col>
-        </RowContainer>
+        <>
+            {pathname === '/login' || pathname === '/register' ? null : <RowContainer>
+                <Col className="gutter-row" span={5}>
+                    <ImageContainer>
+                        <Link to="/">MeCode</Link>
+                    </ImageContainer>
+                </Col>
+                <Col className="gutter-row" span={19}>
+                    <InfoWrapper>
+                        <Avatar src={LogoSvg} color="red" />
+                        <ProfileContainer>
+                            <p>{`${username || "Duc"}`}</p>
+                            <span>{role || " Super Admin"}</span>
+                        </ProfileContainer>
+                        <Dropdown overlay={renderSettingTab()} placement="topRight" trigger={['click']}>
+                            <SettingOutlined />
+                        </Dropdown>
+                    </InfoWrapper>
+                </Col>
+            </RowContainer>}
+        </>
     );
 };
 

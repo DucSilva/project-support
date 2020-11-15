@@ -2,8 +2,8 @@
 /* eslint-disable object-curly-newline */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Input, Icon, Button, Layout } from 'antd';
-import CreateCompany from '../../containers/ModelForm/CreateCompany';
+import { Input, Button, Layout } from 'antd';
+// import CreateCompany from '../../containers/ModelForm/CreateCompany';
 import {
   AdminContainer,
   CollapseMenuWrapper,
@@ -15,11 +15,11 @@ import {
   CustomMenu,
   CustomMenuItem,
 } from './styles';
-import CompanyTable from '../../containers/CompanyTable';
-import UserTable from '../../containers/UserTable';
-import { ROLE_VALUE } from '../../utils/constants';
-import UserCreate from '../../containers/UserCreate';
-import { AddButtonWrapper } from '../../components/ModelForm/styles';
+// import UserTable from '../../containers/UserTable';
+// import { ROLE_VALUE } from '../../utils/constants';
+// import UserCreate from '../../containers/UserCreate';
+import { PrinterOutlined, PlusCircleFilled, SearchOutlined, EllipsisOutlined, UserOutlined, BankOutlined } from '@ant-design/icons';
+
 
 const { Content } = Layout;
 const customMenuTrack = 'custom-menu-track';
@@ -32,9 +32,9 @@ const Admin = (props) => {
   const [toggleModal, setToggleModal] = useState(false);
 
   // Fetch data one time when visit page
-  useEffect(() => {
-    if (!treeData) getAllTree();
-  }, []);
+  // useEffect(() => {
+  //   if (!treeData) getAllTree();
+  // }, []);
 
   const toggleCollapsed = () => setIsMenuCollapse(!isMenuCollapse);
 
@@ -49,14 +49,14 @@ const Admin = (props) => {
   };
 
   const UserHeader = (
-    <AddButtonWrapper>
+    <>
       <Button onClick={() => setToggleModal((prevToggleModal) => !prevToggleModal)}>
-        <Icon type="plus" style={{ fontSize: '12px' }} />
+        <PlusCircleFilled style={{ fontSize: '12px' }} />
         ADD USER
       </Button>
-      {toggleModal
-      && <UserCreate toggleModal={() => setToggleModal((prevToggleModal) => !prevToggleModal)} />}
-    </AddButtonWrapper>
+      {/* {toggleModal
+        && <UserCreate toggleModal={() => setToggleModal((prevToggleModal) => !prevToggleModal)} />} */}
+    </>
   );
 
   const renderHeader = (header) => (
@@ -64,16 +64,16 @@ const Admin = (props) => {
       <HeaderTitle>
         {header}
       </HeaderTitle>
-      { header === 'Users' ? UserHeader : <CreateCompany /> }
+      {/* { header === 'Users' ? UserHeader : <CreateCompany />} */}
       <SearchWrapper>
         <Input
           placeholder="Search Users..."
-          prefix={<Icon type="search" style={{ fontWeight: 'bold', color: '#a8aaab' }} />}
+          prefix={<SearchOutlined style={{ fontWeight: 'bold', color: '#a8aaab' }} />}
         />
       </SearchWrapper>
       <IconActionWrapper>
-        <Icon type="printer" />
-        <Icon type="ellipsis" />
+        <PrinterOutlined />
+        <EllipsisOutlined />
       </IconActionWrapper>
     </HeaderWrapper>
   );
@@ -91,46 +91,46 @@ const Admin = (props) => {
         >
           <CustomMenuItem key="1" onClick={openUserTable} className={customMenuTrack} title="User">
             {isMenuCollapse
-              ? <Icon type="user" />
+              ? <UserOutlined />
               : (
                 <>
-                  <Icon type="user" />
+                  <UserOutlined />
                   <span>User</span>
                 </>
               )}
           </CustomMenuItem>
-          {user.role === ROLE_VALUE.SUPER_ADMIN && (
+          {/* {user.role === ROLE_VALUE.SUPER_ADMIN && (
             <CustomMenuItem key="2" onClick={openCompanyTable} className={customMenuTrack} title="Company">
               { isMenuCollapse
-                ? <Icon type="bank" />
+                ? <BankOutlined />
                 : (
                   <>
-                    <Icon type="bank" />
+                    <BankOutlined />
                     <span>Company</span>
                   </>
                 )}
             </CustomMenuItem>
-          )}
+          )} */}
         </CustomMenu>
       </CollapseMenuWrapper>
       <Layout>
         <Content>
-          { isUserTable && (
+          {isUserTable && (
             <>
               {renderHeader('Users')}
               <TableWrapper>
-                <UserTable />
+                {/* <UserTable /> */}
               </TableWrapper>
             </>
           )}
-          { isCompanyTable && user.role === ROLE_VALUE.SUPER_ADMIN && (
-            <>
-              {renderHeader('Company')}
-              <TableWrapper>
-                <CompanyTable />
-              </TableWrapper>
-            </>
-          )}
+          {/* {isCompanyTable && user.role === ROLE_VALUE.SUPER_ADMIN && ( */}
+          <>
+            {renderHeader('Company')}
+            <TableWrapper>
+              {/* <CompanyTable /> */}
+            </TableWrapper>
+          </>
+          {/* )} */}
         </Content>
       </Layout>
     </AdminContainer>
