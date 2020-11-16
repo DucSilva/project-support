@@ -7,10 +7,10 @@ import { connect } from 'react-redux';
 
 const PostModal = (props) => {
     const formRef = useRef(null)
-    const { handleOk, onCancel, isUpdate, postDetail, isCreate, isCreating } = props;
+    const { handleOk, onCancel, isUpdate, postDetail, isCreate, isCreating, isUpdating } = props;
     const [form] = Form.useForm();
     const [formValues, setFormValues] = useState({});
-    const titlePost = _get(formValues, 'title', '')
+    const titlePost = _get(formValues, 'title', '');
     const descriptionPost = _get(formValues, 'description', '');
     useEffect(() => {
         if (isUpdate) setFormValues(postDetail)
@@ -32,13 +32,11 @@ const PostModal = (props) => {
 
 
     return (
-        <Spin spinning={isCreating}>
+        <Spin spinning={isCreating || isUpdating}>
             <Form
                 onFinish={handleFinish}
                 onCancel={handleCancel}
-                defaultValue={isUpdate ? postDetail : {}}
                 initialValues={isCreate ? {} : postDetail}
-                // defaultValue={postDetail}
                 form={form}
                 ref={formRef}
             >
@@ -84,8 +82,10 @@ const PostModal = (props) => {
 
 const mapStateToProps = (state) => {
     const isCreating = postSelector.getIsCreating(state);
+    const isUpdating = postSelector.getIsUpdating(state);
     return {
-        isCreating
+        isCreating,
+        isUpdating
     }
 }
 export default connect(mapStateToProps, null)(PostModal);
