@@ -32,9 +32,11 @@ export default function (state = initialState, action) {
       return state.set('isCreating', true);
     case CREATE_POST_SUCCESS: {
       const { data } = action;
+      const oldPosts = state.get('post').toJS();
       const newPost = _get(data, 'Post', {});
+      const newPostList = [...oldPosts, newPost];
       return state.set('isCreating', false)
-        .set('post', fromJS([...state, ...newPost]))
+        .set('post', fromJS(newPostList))
     }
     case CREATE_POST_ERROR: {
       const { message } = action;

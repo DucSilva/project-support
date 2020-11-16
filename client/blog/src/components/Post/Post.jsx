@@ -30,8 +30,11 @@ const Post = (props) => {
     }
 
     useEffect(() => {
+        // if (isCreate) getAllPost(token);
+        // if (isUpdate) getAllPost(token);
         getAllPost(token);
-    }, [isCreate]);
+        // }, [getAllPost, isCreate, isUpdate, token]);
+    }, []);
 
 
     const onToggleModal = () => {
@@ -41,8 +44,8 @@ const Post = (props) => {
 
     const handleOk = (values) => {
         const { title, description } = values;
-        if (isCreate) createPost({ title, description, token }, onToggleModal(), getAllPost(token));
-        if (isUpdate) updatePost({ selectedId, title, description, token }, onToggleModal(), getAllPost(token))
+        if (isCreate) createPost({ title, description, token }, onToggleModal());
+        if (isUpdate) updatePost({ selectedId, title, description, token }, onToggleModal())
     }
 
     const handleDelete = (id) => dispatch({ type: DELETE_POST, id, token })
