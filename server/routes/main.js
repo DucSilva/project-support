@@ -8,7 +8,7 @@ const router = express.Router();
 router.post('/posts', verifyToken, createPost);
 router.get('/posts', verifyToken, getAllPost);
 router.get('/posts/:postId', verifyToken, getSinglePost);
-router.patch('/posts/:postId', verifyToken, updatePost);
+router.put('/posts/:postId', verifyToken, updatePost);
 router.delete('/posts/:postId', verifyToken, deletePost);
 
 // Create User
