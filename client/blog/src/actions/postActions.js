@@ -50,6 +50,7 @@ const createPostError = (error) => {
 
 // Update post 
 const updatePost = (payload) => {
+  console.log('payload==>', payload)
   return {
     type: UPDATE_POST,
     payload

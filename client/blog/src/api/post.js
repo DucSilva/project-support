@@ -38,10 +38,9 @@ export const getPost = (token, _id) => axios
  * @param params: token, _id
  */
 
-export const updatePost = (_id, title, description, token) => {
-    console.log('test==>>', { _id, title, description, token })
+export const updatePost = (selectedId, title, description, token) => {
     return axios
-        .patch(`posts/${_id}`, title, description, { headers: { Authorization: `Bearer ${token}` } })
+        .put(`posts/${selectedId}`, { title, description }, { headers: { Authorization: `Bearer ${token}` } })
         .then((response) => ({ response }))
         .catch(handleError);
 }

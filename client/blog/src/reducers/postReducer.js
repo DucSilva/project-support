@@ -2,6 +2,7 @@ import {
   GET_ALL_POST, GET_ALL_POST_SUCCESS, GET_ALL_POST_ERROR,
   CREATE_POST, CREATE_POST_SUCCESS, CREATE_POST_ERROR,
   DELETE_POST, DELETE_POST_SUCCESS, DELETE_POST_ERROR,
+  UPDATE_POST, UPDATE_POST_SUCCESS, UPDATE_POST_ERROR,
 } from '../actions/index';
 import { fromJS } from 'immutable';
 import _get from 'lodash/get';
@@ -11,6 +12,7 @@ const initialState = fromJS({
   post: fromJS([]),
   isCreating: false,
   isDeleting: false,
+  isUpdating: false,
 });
 
 export default function (state = initialState, action) {
@@ -32,9 +34,11 @@ export default function (state = initialState, action) {
       return state.set('isCreating', true);
     case CREATE_POST_SUCCESS: {
       const { data } = action;
+      const oldPosts = state.get('post').toJS();
       const newPost = _get(data, 'Post', {});
+      const newPostList = [...oldPosts, newPost];
       return state.set('isCreating', false)
-        .set('post', fromJS([...state, ...newPost]))
+        .set('post', fromJS(newPostList))
     }
     case CREATE_POST_ERROR: {
       const { message } = action;
@@ -54,6 +58,23 @@ export default function (state = initialState, action) {
     case DELETE_POST_ERROR: {
       const { message } = action;
       return state.set('isDeleting', false)
+        .set('message', message);
+    }
+
+    case UPDATE_POST:
+      return state.set('isUpdating', true);
+    case UPDATE_POST_SUCCESS: {
+      const { data } = action;
+      const newUpdatePost = _get(data, 'updatePost', {})
+      const oldPosts = state.get('post').toJS();
+      const foundIndex = oldPosts.findIndex(x => x._id === newUpdatePost._id);
+      oldPosts[foundIndex] = newUpdatePost;
+      return state.set('isUpdating', false)
+        .set('post', fromJS(oldPosts))
+    }
+    case UPDATE_POST_ERROR: {
+      const { message } = action;
+      return state.set('isUpdating', false)
         .set('message', message);
     }
 

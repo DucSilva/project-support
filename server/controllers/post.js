@@ -71,6 +71,8 @@ export function getSinglePost(req, res) {
 export function updatePost(req, res) {
     const id = req.params.postId;
     const updateObject = req.body;
+    updateObject._id = id;
+    console.log('updateObject==>>', updateObject)
     Post.update({ _id: id }, { $set: updateObject })
         .exec()
         .then(() => {

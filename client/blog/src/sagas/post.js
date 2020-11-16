@@ -29,7 +29,6 @@ export function* createPost({ payload, callback }) {
     const { title, description, token } = payload;
     try {
         const { response, error } = yield call(PostApi.createPost, title, description, token);
-        // console.log(response)
         if (error) {
             yield put(postActions.createPostError(error))
             notification.error({ message: error.message });
@@ -47,13 +46,10 @@ export function* createPost({ payload, callback }) {
 
 // Update post
 export function* updatePost({ payload, callback }) {
-    // console.log('payload update', payload,)
     const { title, description, token, selectedId } = payload;
     try {
-
         const { response, error } = yield call(PostApi.updatePost, selectedId, title, description, token);
         if (error) {
-            debugger
             yield put(postActions.updatePostError(error))
             notification.error({ message: error.message });
         }
