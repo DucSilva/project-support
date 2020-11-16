@@ -23,7 +23,7 @@ Project Support is an open source platform that enable users share posts they're
 | POST | /api/posts | To create a new post |
 | GET | /api/posts | To retrieve all posts on the platform |
 | GET | /api/posts/:postId | To retrieve details of a single post |
-| PATCH | /api/posts/:postId | To edit the details of a single post |
+| PUT | /api/posts/:postId | To edit the details of a single post |
 | DELETE | /api/posts/:postId | To delete a single post |
 ### Technologies Used
 * [NodeJS](https://nodejs.org/) This is a cross-platform runtime environment built on Chrome's V8 JavaScript engine used in running JavaScript codes on the server. It allows for installation and managing of dependencies and communication with databases.
