@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
     return {
         post,
         isFetching,
-        token,
+        token
     };
 };
 

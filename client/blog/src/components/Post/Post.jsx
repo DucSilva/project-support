@@ -30,10 +30,7 @@ const Post = (props) => {
     }
 
     useEffect(() => {
-        // if (isCreate) getAllPost(token);
-        // if (isUpdate) getAllPost(token);
         getAllPost(token);
-        // }, [getAllPost, isCreate, isUpdate, token]);
     }, []);
 
 
@@ -89,6 +86,7 @@ const Post = (props) => {
                 onOk={handleOk}
                 onCancel={onToggleModal}
                 footer={null}
+                destroyOnClose={true}
             >
                 <PostModal handleOk={handleOk} onCancel={onToggleModal} isUpdate={isUpdate} isCreate={isCreate} postDetail={postDetail} />
             </Modal>
